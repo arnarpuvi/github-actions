@@ -11,4 +11,3 @@ Aquest projecte forma part del mòdul de Programació i ha estat desenvolupat am
 ```bash
 git clone https://github.com/arnarpuvi/github-actions.git
 cd github-actions
-    

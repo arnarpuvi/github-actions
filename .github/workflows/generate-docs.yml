@@ -1,0 +1,39 @@
+name: Generar documentació Pydoc
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instal·lar dependències
+        run: |
+          python -m venv venv
+          venv\Scripts\activate
+          pip install -r requirements.txt
+
+      - name: Generar Pydoc
+        run: |
+          venv\Scripts\activate
+          mkdir -p docs
+          pydoc --html blog -o docs/blog.html
+
+      - name: Fer commit i push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/*.html
+          git diff --quiet || git commit -m "Actualitza documentació Pydoc"
+          git push origin main
